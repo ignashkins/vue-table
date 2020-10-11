@@ -3,7 +3,30 @@ header('Content-Type: application/json');
 
 $data = [
     'fields' => [
-        'product_weight', 'product_quantity', 'product_active'
+        'id' => [
+            'sort' => 5,
+            'editable' => false,
+        ],
+        'product_name' => [
+            'sort' => 2,
+            'editable' => false,
+            'title' => 'Название',
+        ],
+        'product_weight' => [
+            'sort' => 3,
+            'editable' => true,
+            'title' => 'Вес'
+        ],
+        'product_quantity' => [
+            'sort' => 4,
+            'editable' => true,
+            'title' => 'Кол-во'
+        ],
+        'product_active' => [
+            'sort' => 1,
+            'editable' => true,
+            'title' => '#',
+        ]
     ],
     'products' => [
         [

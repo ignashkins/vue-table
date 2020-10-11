@@ -6,10 +6,7 @@ Vue.component('product-table', {
 		<table class="table table-bordered table-striped">
 		    <thead>
 		        <tr>
-		            <th style="width: 40px;"></th>
-		            <th>Название</th>
-		            <th>Вес</th>
-		            <th>Кол-во</th>
+		            <th v-for="field in _.sortBy(data.fields, f => f.sort)">{{ field.title }}</th>
                 </tr>
             </thead>
 		    <tbody>
@@ -19,18 +16,18 @@ Vue.component('product-table', {
 	`,
     data: function () {
         return {}
-    },
+    }
 })
 
 Vue.component('product-row', {
     props: {
         product: Object,
-        fields: Array,
+        fields: Object,
     },
     template: `
 		<tr>
 			<td v-for="prop in product.props">
-			    <template v-if="product.editable && fields.indexOf(prop.fieldName) > -1">
+			    <template v-if="product.editable && fields[prop.fieldName].editable">
 			        <template v-if="prop.fieldType == 'checkbox'">
                         <bootstrap-checkbox :uniqueId="getUniqueId(product)" v-model="prop.value"></bootstrap-checkbox>
                     </template>
