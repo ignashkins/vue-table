@@ -3,122 +3,128 @@ header('Content-Type: application/json');
 
 $data = [
     'fields' => [
-        'id' => [
+        [
+            'name' => 'product_id',
+            'title' => 'id',
+            'editable' => false,
+            'displayable' => false,
+            'displayValue' => false,
+            'type' => 'input',
             'sort' => 5,
-            'editable' => false,
         ],
-        'product_name' => [
-            'sort' => 2,
-            'editable' => false,
+        [
+            'name' => 'product_name',
             'title' => 'Название',
+            'editable' => false,
+            'displayable' => true,
+            'displayValue' => true,
+            'type' => 'input',
+            'sort' => 2,
         ],
-        'product_weight' => [
+        [
+            'name' => 'product_weight',
+            'title' => 'Вес',
+            'editable' => true,
+            'displayable' => true,
+            'displayValue' => true,
+            'type' => 'input',
             'sort' => 3,
-            'editable' => true,
-            'title' => 'Вес'
         ],
-        'product_quantity' => [
+        [
+            'name' => 'product_quantity',
+            'title' => 'Кол-во',
+            'editable' => true,
+            'displayable' => true,
+            'displayValue' => true,
+            'type' => 'input',
             'sort' => 4,
-            'editable' => true,
-            'title' => 'Кол-во'
         ],
-        'product_active' => [
-            'sort' => 1,
+        [
+            'name' => 'product_active',
+            'title' => '',
             'editable' => true,
-            'title' => '#',
+            'displayable' => true,
+            'displayValue' => false,
+            'type' => 'checkbox',
+            'sort' => 1,
         ]
     ],
     'products' => [
         [
-            'id' => 1,
             'props' => [
                 [
+                    'value' => 1,
+                    'field' => 'product_id',
+                ],
+                [
                     'value' => true,
-                    'sort' => 2,
-                    'fieldName' => 'product_active',
-                    'fieldType' => 'checkbox',
+                    'field' => 'product_active',
                 ],
                 [
                     'value' => 'Product #1',
-                    'sort' => 1,
-                    'fieldName' => 'product_name',
-                    'fieldType' => 'input',
+                    'field' => 'product_name',
                 ],
                 [
                     'value' => 765,
-                    'sort' => 3,
-                    'fieldName' => 'product_weight',
-                    'fieldType' => 'input',
+                    'field' => 'product_weight',
                 ],
                 [
                     'value' => 98,
-                    'sort' => 4,
-                    'fieldName' => 'product_quantity',
-                    'fieldType' => 'input',
+                    'field' => 'product_quantity',
                 ],
             ],
             'editable' => false,
             'active' => true,
         ],
         [
-            'id' => 2,
             'props' => [
                 [
+                    'value' => 2,
+                    'field' => 'product_id',
+                ],
+                [
                     'value' => true,
-                    'sort' => 2,
-                    'fieldName' => 'product_active',
-                    'fieldType' => 'checkbox',
+                    'field' => 'product_active',
                 ],
                 [
                     'value' => 'Product #2',
-                    'sort' => 1,
-                    'fieldName' => 'product_name',
-                    'fieldType' => 'input',
+                    'field' => 'product_name',
                 ],
                 [
                     'value' => 580,
-                    'sort' => 2,
-                    'fieldName' => 'product_weight',
-                    'fieldType' => 'input',
+                    'field' => 'product_weight',
                 ],
                 [
                     'value' => 7,
-                    'sort' => 3,
-                    'fieldName' => 'product_quantity',
-                    'fieldType' => 'input',
+                    'field' => 'product_quantity',
                 ],
             ],
             'editable' => true,
         ],
         [
-            'id' => 3,
             'props' => [
                 [
+                    'value' => 3,
+                    'field' => 'product_id',
+                ],
+                [
                     'value' => false,
-                    'sort' => 2,
-                    'fieldName' => 'product_active',
-                    'fieldType' => 'checkbox',
+                    'field' => 'product_active',
                 ],
                 [
                     'value' => 'Product #3',
-                    'sort' => 1,
-                    'fieldName' => 'product_name',
-                    'fieldType' => 'input',
+                    'field' => 'product_name',
                 ],
                 [
                     'value' => 745,
-                    'sort' => 2,
-                    'fieldName' => 'product_weight',
-                    'fieldType' => 'input',
+                    'field' => 'product_weight',
                 ],
                 [
                     'value' => 95,
-                    'sort' => 3,
-                    'fieldName' => 'product_quantity',
-                    'fieldType' => 'input',
+                    'field' => 'product_quantity',
                 ],
             ],
-            'editable' => false,
+            'editable' => true,
         ],
     ]
 ];
