@@ -10,7 +10,19 @@
 <body>
 	
 	<div id="app" class="container mt-5">
-		<bootstrap-table :elements="products" :fields="fields"></bootstrap-table>
+		<vtable>
+			<vtr>
+				<vtd v-for="el in elements" :key="el.id">
+					<vtable>
+						<vtr>
+							<vtd v-for="el in elements" :key="el.id">
+								{{ el.name }}
+							</vtd>
+						</vtr>
+					</vtable>
+				</vtd>
+			</vtr>
+		</vtable>
 	</div>
 
 	<script src="node_modules/inputmask/dist/inputmask.js"></script>
