@@ -5,13 +5,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Product Table</title>
 	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="app.css">
 </head>
 <body>
 	
 	<div id="app" class="container mt-5">
-		<bootstrap-table></bootstrap-table>
+		<bootstrap-table :elements="products" :fields="fields"></bootstrap-table>
 	</div>
 
+	<script src="node_modules/inputmask/dist/inputmask.js"></script>
 	<script src="node_modules/axios/dist/axios.js"></script>
 	<script src="node_modules/lodash/core.min.js"></script>
 	<script src="node_modules/vue/dist/vue.js"></script>

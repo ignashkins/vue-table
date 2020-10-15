@@ -11,6 +11,8 @@ $data = [
             'displayValue' => false,
             'type' => 'input',
             'sort' => 5,
+            'duplicatable' => false,
+            'mask' => '*',
         ],
         [
             'name' => 'product_name',
@@ -20,6 +22,8 @@ $data = [
             'displayValue' => true,
             'type' => 'input',
             'sort' => 2,
+            'duplicatable' => false,
+            'mask' => '*',
         ],
         [
             'name' => 'product_weight',
@@ -29,6 +33,8 @@ $data = [
             'displayValue' => true,
             'type' => 'input',
             'sort' => 3,
+            'duplicatable' => true,
+            'mask' => '9{*}',
         ],
         [
             'name' => 'product_quantity',
@@ -38,6 +44,8 @@ $data = [
             'displayValue' => true,
             'type' => 'input',
             'sort' => 4,
+            'duplicatable' => true,
+            'mask' => '9{*}',
         ],
         [
             'name' => 'product_active',
@@ -47,6 +55,19 @@ $data = [
             'displayValue' => false,
             'type' => 'checkbox',
             'sort' => 1,
+            'duplicatable' => false,
+            'mask' => '*',
+        ],
+        [
+            'name' => 'product_plus',
+            'title' => '',
+            'editable' => true,
+            'displayable' => true,
+            'displayValue' => false,
+            'type' => 'button',
+            'sort' => 6,
+            'duplicatable' => false,
+            'mask' => '*',
         ]
     ],
     'products' => [
@@ -72,9 +93,14 @@ $data = [
                     'value' => 98,
                     'field' => 'product_quantity',
                 ],
+                [
+                    'value' => '+',
+                    'field' => 'product_plus',
+                ],
             ],
             'editable' => false,
-            'active' => true,
+            'parent' => -1,
+            'subRows' => 0,
         ],
         [
             'props' => [
@@ -98,8 +124,14 @@ $data = [
                     'value' => 7,
                     'field' => 'product_quantity',
                 ],
+                [
+                    'value' => '+',
+                    'field' => 'product_plus',
+                ],
             ],
             'editable' => true,
+            'parent' => -1,
+            'subRows' => 0,
         ],
         [
             'props' => [
@@ -123,8 +155,14 @@ $data = [
                     'value' => 95,
                     'field' => 'product_quantity',
                 ],
+                [
+                    'value' => '+',
+                    'field' => 'product_plus',
+                ],
             ],
             'editable' => true,
+            'parent' => -1,
+            'subRows' => 0,
         ],
     ]
 ];
