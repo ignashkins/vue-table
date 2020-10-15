@@ -1,102 +1,30 @@
-Vue.component('bootstrap-table', {
+Vue.component('btable', {
     props: {
         fields: Array,
-        elements: Array,
     },
     template: `
-		<table class="table table-bordered table-vertical" v-if="elements.length > 0">
+		<table class="table table-bordered table-vertical">
 			<thead>
 			<tr>
-				<th
-						v-for="field in fields"
-						v-show="field.displayable"
-				>{{ field.title }}</th>
+				<th v-for="field in fields" v-show="field.displayable">{{ field.title }}</th>
 			</tr>
 			</thead>
 			<tbody>
-			<bootstrap-table-row
-					v-for="(element,i) in elements"
-					:element=element
-					:key="i"
-					:elementId="i"
-					:fields="fields"
-					@addSubRow="$root.addSubRow"
-					@changeSubRowsState="$root.changeSubRowsState"
-			></bootstrap-table-row>
+			<slot></slot>
 			</tbody>
 		</table>
     `,
 })
 
-Vue.component('bootstrap-table-row', {
-    props: {
-        element: Object,
-        elementId: Number,
-        fields: Array,
-    },
+Vue.component('brow', {
     template: `
 		<tr>
-			<template v-if="element.parent > -1">
-				<td v-for="prop in element._props">
-					<bootstrap-input
-							v-model="prop.value"
-							:disabled="element.disabled"
-					></bootstrap-input>
-				</td>
-			</template>
-			<template v-else>
-				<td
-						:rowspan="fields[p].duplicatable ? 1 : (element.subRows+1)"
-						v-for="(prop, p) in element._props"
-						v-show="fields[p].displayable"
-				>
-					<template v-if="element.editable && fields[p].editable">
-						<template v-if="fields[p].type === 'checkbox'">
-							<bootstrap-checkbox
-									:uniqueId="getUniqueId(element,prop.value)"
-									:checked="prop.value"
-									v-model="prop.value"
-							></bootstrap-checkbox>
-						</template>
-						<template v-if="fields[p].type === 'input'">
-							<bootstrap-input
-									v-model="prop.value"
-									:disabled="element.disabled"
-									:mask="fields[p].mask"
-							></bootstrap-input>
-						</template>
-						<template v-if="fields[p].type === 'button'">
-							<bootstrap-button
-									:disabled="false"
-									:btn_class="'btn btn-sm btn-icon btn-outline-secondary'"
-									:name="'+'"
-									:element="element"
-									:elementId="elementId"
-									@addSubRow="$emit('addSubRow', elementId)"
-									v-show="!element.disabled"
-							>{{ prop.value }}</bootstrap-button>
-						</template>
-					</template>
-					<template v-else>
-						<template v-if="fields[p].displayValue">
-							{{ prop.value }}
-						</template>
-					</template>
-				</td>
-			</template>
+			<slot></slot>
 		</tr>
-    `,
-    methods: {
-        getUniqueId: function (element, checked) {
-            element.uniqueId = 'elem_' + new Date().getTime() + Math.round(Math.random());
-            element.disabled = !checked;
-            this.$emit('changeSubRowsState', this.elementId, checked)
-            return element.uniqueId;
-        }
-    },
+    `
 })
 
-Vue.component('bootstrap-checkbox', {
+Vue.component('bcheckbox', {
     model: {
         prop: 'checked',
         event: 'change',
@@ -119,15 +47,14 @@ Vue.component('bootstrap-checkbox', {
     `,
 })
 
-Vue.component('bootstrap-input', {
+Vue.component('binput', {
     model: {
         prop: 'value',
         event: 'keyup',
     },
     props: ['value', 'disabled', 'mask'],
     template: `
-		<input type="text" :value="value" class="form-control form-control-sm" :disabled="disabled"
-			   @keyup="$emit('keyup', $event.target.value)">
+		<input type="text" :value="value" class="form-control form-control-sm" :disabled="disabled">
     `,
     mounted() {
         let im = new Inputmask(this.mask)
@@ -135,7 +62,7 @@ Vue.component('bootstrap-input', {
     }
 })
 
-Vue.component('bootstrap-button', {
+Vue.component('bbutton', {
     props: {
         disabled: Boolean,
         btn_class: String,
@@ -154,30 +81,27 @@ new Vue({
     el: '#app',
 
     data: {
-        fields: [],
-        products: [],
+        requests: [],
     },
 
     methods: {
-        getSortedFieldList: function (fields) {
+        getSortedFieldsList: function (fields) {
             return _.sortBy(fields, f => f.sort);
         },
-        getSortedProductList: function (products) {
-            let fields = this.fields;
-
-            products.forEach(function (product) {
-                product._props = [];
-                product.props.forEach(function (prop, i) {
-                    fields.forEach(function (field, f) {
+        getSortedElementsList: function (list) {
+            list.elements.forEach(function (element) {
+                element._props = [];
+                element.props.forEach(function (prop, i) {
+                    list.fields.forEach(function (field, f) {
                         if (prop.field === field.name) {
-                            product._props[f] = prop;
+                            element._props[f] = prop;
                         }
                     });
                 });
             });
-
-            return products;
+            return list;
         },
+
         addSubRow: function (elementId) {
             this.products.splice((elementId + 1), 0, {
                 disabled: false,
@@ -192,12 +116,17 @@ new Vue({
             this.products[elementId].subRows++;
         },
         changeSubRowsState: function (productId, checked) {
-            console.log(productId, checked)
             this.products.forEach(function (product, i) {
                 if (productId === product.parent) {
                     product.disabled = !checked
                 }
             })
+        },
+        getUniqueId: function (element, id, checked) {
+            element.uniqueId = 'elem_' + new Date().getTime() + id
+            element.disabled = !checked
+            this.changeSubRowsState(id, checked)
+            return element.uniqueId;
         }
     },
 
@@ -206,12 +135,7 @@ new Vue({
         axios.get('data.php').then(function (response) {
             return response.data;
         }).then(function (data) {
-            self.fields = self.getSortedFieldList(data.fields);
-            return data.products;
-        }).then(function (products) {
-            self.products = self.getSortedProductList(products);
-        }).then(function () {
-            console.log('Data loaded');
+            self.requests = self.getSortedElementsList(data.requests);
         });
     },
 })
