@@ -1,6 +1,6 @@
 Vue.component('btable', {
     props: {
-        fields: Array,
+        fields: Array
     },
     template: `
 		<table class="table table-bordered table-vertical">
@@ -21,6 +21,14 @@ Vue.component('brow', {
 		<tr>
 			<slot></slot>
 		</tr>
+    `
+})
+
+Vue.component('bcol', {
+    template: `
+		<td>
+			<slot></slot>
+		</td>
     `
 })
 

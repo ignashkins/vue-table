@@ -12,9 +12,9 @@
 <div id="app" class="container mt-5">
 	<btable :fields="requests.fields">
 		<brow v-for="(request, requestId) in requests.elements" :key="requestId">
-			<!--<td v-for="prop in request._props">
-				{{ prop }}
-			</td>-->
+			<bcol v-for="prop in request._props">
+				{{ prop.value }}
+			</bcol>
 			<btable :fields="request.products.fields" v-if="request.products.length > 0">
 				<brow
 						v-for="(product, productId) in request.products"
