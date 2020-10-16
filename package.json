@@ -1,0 +1,27 @@
+{
+  "name": "vue-table",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ignashkins/vue-table.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ignashkins/vue-table/issues"
+  },
+  "homepage": "https://github.com/ignashkins/vue-table#readme",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "bootstrap": "^4.5.3",
+    "inputmask": "^5.0.5",
+    "lodash": "^4.17.20",
+    "vue": "^2.6.12"
+  }
+}
