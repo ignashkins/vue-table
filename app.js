@@ -25,8 +25,9 @@ Vue.component('brow', {
 })
 
 Vue.component('bcol', {
+    props: ['colspan'],
     template: `
-		<td>
+		<td :colspan="colspan">
 			<slot></slot>
 		</td>
     `

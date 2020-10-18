@@ -26,6 +26,17 @@ $data = [
                 'duplicatable' => false,
                 'mask' => '*',
             ],
+            [
+                'name' => 'request_status',
+                'title' => 'Название',
+                'editable' => false,
+                'displayable' => true,
+                'displayValue' => true,
+                'type' => 'input',
+                'sort' => 2,
+                'duplicatable' => false,
+                'mask' => '*',
+            ],
         ],
         'elements' => [
             [
@@ -37,6 +48,10 @@ $data = [
                     [
                         'value' => 'Request # 1',
                         'field' => 'request_name',
+                    ],
+                    [
+                        'value' => 'Подтверждено',
+                        'field' => 'request_status',
                     ]
                 ],
                 'products' => [
@@ -217,9 +232,16 @@ $data = [
                     [
                         'value' => 'Request # 2',
                         'field' => 'request_name',
+                    ],
+                    [
+                        'value' => 'Подтверждено',
+                        'field' => 'request_status',
                     ]
                 ],
-                'products' => [],
+                'products' => [
+                    'elements' => [],
+                    'fields' => [],
+                ],
                 'editable' => false,
                 'parent' => -1,
                 'subRows' => 0,
@@ -233,9 +255,16 @@ $data = [
                     [
                         'value' => 'Request # 3',
                         'field' => 'request_name',
+                    ],
+                    [
+                        'value' => 'Подтверждено',
+                        'field' => 'request_status',
                     ]
                 ],
-                'products' => [],
+                'products' => [
+                    'elements' => [],
+                    'fields' => [],
+                ],
                 'editable' => false,
                 'parent' => -1,
                 'subRows' => 0,
