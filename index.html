@@ -17,8 +17,7 @@
 					{{ requestProp.value }}
 				</bcol>
 			</brow>
-			
-			<brow v-if="request.products && request.products?.elements?.length > 0">
+			<brow v-if="request.products.elements.length > 0">
 				<bcol :colspan="request._props.length">
 					<btable :fields="request.products.fields">
 						<brow
@@ -27,56 +26,60 @@
 								@addSubRow="addSubRow(productId)"
 								@changeSubRowsState="changeSubRowsState"
 						>
-							<td>{{product}}</td>
 							<template v-if="product.parent > -1">
-								<bcol v-for="prop in product._props">
-									<binput v-model="prop.value" :disabled="product.disabled"></binput>
+								<bcol v-for="(productProp, productPropId) in product._props" :key="productPropId">
+									<binput v-model="productProp.value" :disabled="product.disabled"></binput>
 								</bcol>
 							</template>
 							<template v-else>
-								<td
-										v-for="(prop, p) in product._props"
-										v-show="request.products.fields[p].displayable"
-										:rowspan="request.products.fields[p].duplicatable ? 1 : (product.subRows+1)"
+								<td>entered</td>
+								<td>{{ product }}</td>
+								<bcol
+										v-for="(productProp, productPropId) in product._props"
+										v-show="request.products.fields[productPropId].displayable"
+										:rowspan="request.products.fields[productPropId].duplicatable ? 1 : (product.subRows+1)"
+										:key="productPropId"
 								>
-									<template v-if="product.editable && request.products.fields[p].editable">
-										<template v-if="request.products.fields[p].type === 'checkbox'">
+									inside column
+									<template
+											v-if="product.editable && request.products.fields[productPropId].editable">
+										<template v-if="request.products.fields[productPropId].type === 'checkbox'">
 											<div class="custom-control custom-checkbox">
 												<input
 														type="checkbox"
 														class="custom-control-input"
-														:uniqueId="getUniqueId(product, productId, prop.value)"
+														:uniqueId="getUniqueId(product, productId, productProp.value)"
 														:id="product.uniqueId"
-														:checked="prop.value"
-														v-model="prop.value"
+														:checked="productProp.value"
+														v-model="productProp.value"
 												>
 												<label class="custom-control-label" :for="product.uniqueId"></label>
 											</div>
 										</template>
-										<template v-if="request.products.fields[p].type === 'input'">
+										<template v-if="request.products.fields[productPropId].type === 'input'">
 											<binput
-													v-model="prop.value"
+													v-model="productProp.value"
 													:disabled="product.disabled"
-													:mask="request.products.fields[p].mask"
+													:mask="request.products.fields[productPropId].mask"
 											></binput>
 										</template>
-										<template v-if="request.products.fields[p].type === 'button'">
+										<template v-if="request.products.fields[productPropId].type === 'button'">
 											<button
 													type="button"
 													class="btn btn-sm btn-icon btn-outline-secondary"
 													@click="addSubRow(productId)"
 													v-show="!product.disabled"
 											>
-												{{ prop.value }}
+												{{ productProp.value }}
 											</button>
 										</template>
 									</template>
 									<template v-else>
-										<template v-if="request.products.fields[p].displayValue">
-											{{ prop.value }}
+										<template v-if="request.products.fields[productPropId].displayValue">
+											{{ productProp.value }}
 										</template>
 									</template>
-								</td>
+								</bcol>
 							</template>
 						</brow>
 					</btable>
