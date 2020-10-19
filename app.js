@@ -94,47 +94,58 @@ new Vue({
     },
 
     methods: {
-        getSortedFieldsList: function (fields) {
+
+        sortHeaders: async function (fields) {
             return _.sortBy(fields, f => f.sort);
         },
-        getSortedElementsList: function (list) {
-            list.elements.forEach(function (element) {
-                element._props = [];
-                element.props.forEach(function (prop, i) {
-                    list.fields.forEach(function (field, f) {
-                        if (prop.field === field.name) {
-                            element._props[f] = prop;
-                        }
+
+        // сортируем заголовки
+        // сортируем элементы по заголовкам
+        getSortedElementsList: async function (list) {
+            let self = this;
+
+            if (list.fields.length > 0 && list.elements.length > 0) {
+
+                list.fields = await this.sortHeaders(list.fields);
+                list.elements.forEach(function (element) {
+                    element._props = [];
+                    element.props.forEach(function (prop, i) {
+                        list.fields.forEach(function (field, f) {
+                            if (prop.field === field.name) {
+                                element._props[f] = prop;
+                            }
+                        });
                     });
                 });
-            });
+            }
+
             return list;
         },
 
-        addSubRow: function (elementId) {
-            this.products.splice((elementId + 1), 0, {
+        addSubRow: function (productId, requestId) {
+            this.requests.elements[requestId].products.elements.splice((productId + 1), 0, {
                 disabled: false,
                 editable: true,
-                parent: elementId,
+                parent: productId,
                 _props: [
                     {field: 'product_weight', value: 0},
                     {field: 'product_quantity', value: 0},
                 ]
             });
 
-            this.products[elementId].subRows++;
+            this.requests.elements[requestId].products.elements[productId].subRows++;
         },
-        changeSubRowsState: function (productId, checked) {
-            this.products.forEach(function (product, i) {
+        changeSubRowsState: function (productId, checked, requestId) {
+            this.requests.elements[requestId].products.elements.forEach(function (product, i) {
                 if (productId === product.parent) {
                     product.disabled = !checked
                 }
             })
         },
-        getUniqueId: function (element, id, checked) {
-            element.uniqueId = 'elem_' + new Date().getTime() + id
+        getUniqueId: function (element, productId, checked, requestId) {
+            element.uniqueId = 'elem_' + new Date().getTime() + productId
             element.disabled = !checked
-            this.changeSubRowsState(id, checked)
+            this.changeSubRowsState(productId, checked, requestId)
             return element.uniqueId;
         }
     },
@@ -143,8 +154,12 @@ new Vue({
         let self = this;
         axios.get('data.php').then(function (response) {
             return response.data;
-        }).then(function (data) {
-            self.requests = self.getSortedElementsList(data.requests);
+        }).then(async function (data) {
+            self.requests = await self.getSortedElementsList(data.requests);
+
+            self.requests.elements.map(function (element) {
+                return self.getSortedElementsList(element.products);
+            })
         });
     },
 })

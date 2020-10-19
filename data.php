@@ -11,7 +11,7 @@ $data = [
                 'displayable' => true,
                 'displayValue' => true,
                 'type' => 'input',
-                'sort' => 1,
+                'sort' => 3,
                 'duplicatable' => false,
                 'mask' => '*',
             ],
@@ -28,12 +28,12 @@ $data = [
             ],
             [
                 'name' => 'request_status',
-                'title' => 'Название',
+                'title' => 'Статус',
                 'editable' => false,
                 'displayable' => true,
                 'displayValue' => true,
                 'type' => 'input',
-                'sort' => 2,
+                'sort' => 1,
                 'duplicatable' => false,
                 'mask' => '*',
             ],
@@ -222,6 +222,7 @@ $data = [
                 'editable' => false,
                 'parent' => -1,
                 'subRows' => 0,
+                'expandable' => false,
             ],
             [
                 'props' => [
@@ -245,6 +246,7 @@ $data = [
                 'editable' => false,
                 'parent' => -1,
                 'subRows' => 0,
+                'expandable' => false,
             ],
             [
                 'props' => [
@@ -268,6 +270,7 @@ $data = [
                 'editable' => false,
                 'parent' => -1,
                 'subRows' => 0,
+                'expandable' => false,
             ],
         ],
     ],

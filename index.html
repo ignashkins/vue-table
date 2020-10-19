@@ -21,7 +21,7 @@
 				<bcol :colspan="request._props.length">
 					<btable :fields="request.products.fields">
 						<brow
-								v-for="(product, productId) in getSortedElementsList(request.products)"
+								v-for="(product, productId) in request.products.elements"
 								:key="productId"
 								@addSubRow="addSubRow(productId)"
 								@changeSubRowsState="changeSubRowsState"
@@ -32,23 +32,19 @@
 								</bcol>
 							</template>
 							<template v-else>
-								<td>entered</td>
-								<td>{{ product }}</td>
 								<bcol
 										v-for="(productProp, productPropId) in product._props"
 										v-show="request.products.fields[productPropId].displayable"
 										:rowspan="request.products.fields[productPropId].duplicatable ? 1 : (product.subRows+1)"
 										:key="productPropId"
 								>
-									inside column
-									<template
-											v-if="product.editable && request.products.fields[productPropId].editable">
+									<template v-if="product.editable && request.products.fields[productPropId].editable">
 										<template v-if="request.products.fields[productPropId].type === 'checkbox'">
 											<div class="custom-control custom-checkbox">
 												<input
 														type="checkbox"
 														class="custom-control-input"
-														:uniqueId="getUniqueId(product, productId, productProp.value)"
+														:uniqueId="getUniqueId(product, productId, productProp.value, requestId)"
 														:id="product.uniqueId"
 														:checked="productProp.value"
 														v-model="productProp.value"
@@ -67,7 +63,7 @@
 											<button
 													type="button"
 													class="btn btn-sm btn-icon btn-outline-secondary"
-													@click="addSubRow(productId)"
+													@click="addSubRow(productId, requestId)"
 													v-show="!product.disabled"
 											>
 												{{ productProp.value }}
